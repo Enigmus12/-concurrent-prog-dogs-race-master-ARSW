@@ -24,9 +24,13 @@ Esto confirma que el programa aprovecha el paralelismo ofrecido por el procesado
 
 **Punto 3**
 Al ejecutar el programa y modificar de tal manera que despues de 5 seg se detenga para ver cuantos primos alcanzo a contar cada hilo se obtuvo lo siguiente
+
 - Con 3 hilos
+  
 ![alt text](img/image-3.png)
-- Con 18 hilos 
+
+- Con 18 hilos
+  
 ![alt text](img/image-4.png)
 
 ### Parte 2
