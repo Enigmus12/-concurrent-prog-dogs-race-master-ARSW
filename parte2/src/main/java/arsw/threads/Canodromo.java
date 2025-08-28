@@ -17,9 +17,9 @@ import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 
 /**
- * Interfaz de usuario y modelo para un Canodromo
+ * Un canodromo con varios carriles
  * 
- * @author rlopez
+ * @author Juan David Rodríguez
  * 
  */
 public class Canodromo extends JFrame {

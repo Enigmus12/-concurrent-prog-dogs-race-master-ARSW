@@ -7,8 +7,8 @@ import javax.swing.JButton;
 /**
  * Un carril del canodromo
  * 
- * @author rlopez
- * 
+ * @author Juan David Rodríguez
+ *
  */
 public class Carril {
 	private Color on = Color.CYAN;

@@ -1,7 +1,54 @@
-# -concurrent-prog-dogs-race-master-ARSW
-![alt text](image.png)
-![alt text](image-1.png)
+# programación concurrente, condiciones de carrera y sincronización de hilos
+### Parte 1 
+**Punto 1**
+Inicialmente el programa ejecuta la búsqueda de primos utilizando **un solo hilo** (`PrimeFinderThread`) en el rango `0 – 200.000.000`.
 
-con 3 hilos 
+- En el Administrador de Tareas de Windows se observa que, aunque la CPU tiene **14 núcleos físicos y 18 procesadores lógicos**, el programa solo aprovecha **un hilo de ejecución** para la búsqueda.
+- En la vista de CPU por **núcleos lógicos**, se aprecia que la carga de trabajo se concentra principalmente en **un núcleo**, mientras los demás permanecen con baja actividad.
+- Es importante mencionar que la JVM y el sistema operativo pueden migrar el hilo entre diferentes núcleos, por lo que en ocasiones se ve actividad ligera en más de un recuadro. Sin embargo, **no hay paralelismo real**, ya que solo existe un hilo de cómputo en el programa.
 
-![alt text](image-2.png)
+![alt text](img/image-1.png)
+![alt text](img/image.png)
+
+**Punto 2**
+Al ejecutar el programa y observar el **Administrador de tareas de Windows** en la vista por **núcleos lógicos**, se evidenció que ahora **varios núcleos de CPU presentan carga de forma simultánea**. 
+
+- Hilo 1: [0 – 66.000.000]  
+- Hilo 2: [66.000.000 – 132.000.000]  
+- Hilo 3: [132.000.000 – 200.000.000] 
+
+Al ejecutar el programa y observar el **Administrador de tareas de Windows** en la vista por **núcleos lógicos**, se evidenció que ahora **varios núcleos de CPU presentan carga de forma simultánea**.  
+Esto confirma que el programa aprovecha el paralelismo ofrecido por el procesador, mejorando la distribución del trabajo respecto a la versión de un solo hilo.
+
+![alt text](img/image-2.png)
+
+**Punto 3**
+Al ejecutar el programa y modificar de tal manera que despues de 5 seg se detenga para ver cuantos primos alcanzo a contar cada hilo se obtuvo lo siguiente
+- Con 3 hilos
+![alt text](img/image-3.png)
+- Con 18 hilos 
+![alt text](img/image-4.png)
+
+### Parte 2
+**Taller.**
+1. 
+- El error de que los resultados (total recorrido y número del galgo ganador) son mostrados antes de que finalice la carrera como tal, se debe En MainCanodromo, dentro de la acción del botón Start.
+- El problema es que el winnerDialog(...) se ejecuta antes de que los hilos terminen, porque start() arranca cada galgo en paralelo, y el código sigue ejecutándose sin esperar
+- La solucion es usar join(), La idea es que el hilo que lanza los galgos espere a que todos los galgos terminen antes de mostrar el resultado.
+Para eso se usa join() en cada galgo.
+2. Despues de correr varias veces, se muestra una inconsistencia cuando dos galgos llegan de 1, haciendo que los dos tengan el numero 1 (RegistroLlegada):
+- Se corrigue este error en la clase Galgo.corra(), debido a que actualmente realiza lo siguiente:
+    * Varios galgos pueden leer el mismo valor de ultimaPosicionAlcanzada al mismo tiempo, eso haría que dos galgos se registren en la misma posición o incluso dos se marquen como ganadores.
+3.  La Solucion es crear método sincronizado en RegistroLlegada que encapsule toda la lógica de llegada (posición + posible ganador), viendose asi lo que se implemento
+    * synchronized en RegistroLlegada → garantiza que no haya inconsistencias en posiciones y ganador.
+4. Solucion:
+    *  Crear un monitor de pausa → una clase auxiliar que maneje pause(), resume() y waitIfPaused().
+    *  galgos, en su bucle de carrera, consultan ese monitor y se detienen si está en pausa.
+    *  botones llaman a pause() o resume() del monitor.
+    -  Funciona de la siguiente manera:
+    *  Cada galgo, en su bucle, llama a monitor.esperarSiPausado() → se queda esperando si la carrera está en pausa.
+    *  Stop → monitor.pausar() hace que los galgos se queden en wait().
+    *  Continue → monitor.reanudar() hace notifyAll() y todos los galgos despiertan.
+
+### Autor   
+    Juan David Rodriguez

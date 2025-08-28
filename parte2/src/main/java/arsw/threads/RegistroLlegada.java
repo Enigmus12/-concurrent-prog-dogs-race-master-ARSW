@@ -1,27 +1,34 @@
 package arsw.threads;
 
+/**
+ * Registro de llegadas de los galgos.
+ * 
+ * @author Juan David Rodríguez
+ * 
+ */
+
 public class RegistroLlegada {
 
-	private int ultimaPosicionAlcanzada=1;
+    private int ultimaPosicionAlcanzada = 1;
+    private String ganador = null;
 
-	private String ganador=null;
-	
-	public String getGanador() {
-		return ganador;
-	}
+    // Método sincronizado: asegura que solo un hilo entre a la vez
+    public synchronized int registrarLlegada(String galgoName) {
+        int posicion = ultimaPosicionAlcanzada;
 
-	public void setGanador(String ganador) {
-		this.ganador = ganador;
-	}
+        if (posicion == 1) {
+            ganador = galgoName; // el primero en llegar es el ganador
+        }
 
-	public int getUltimaPosicionAlcanzada() {
-		return ultimaPosicionAlcanzada;
-	}
+        ultimaPosicionAlcanzada++;
+        return posicion; // se devuelve la posición asignada a ese galgo
+    }
 
-	public void setUltimaPosicionAlcanzada(int ultimaPosicionAlcanzada) {
-		this.ultimaPosicionAlcanzada = ultimaPosicionAlcanzada;
-	}
+    public synchronized String getGanador() {
+        return ganador;
+    }
 
-	
-	
+    public synchronized int getUltimaPosicionAlcanzada() {
+        return ultimaPosicionAlcanzada;
+    }
 }
