@@ -3,20 +3,20 @@ package edu.eci.arsw.primefinder;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PrimeFinderThread extends Thread{
+public class PrimeFinderThread extends Thread {
 
-    int a, b;
-    private List<Integer> primes = new LinkedList<>();
+    private long a, b; 
+    private List<Long> primes = new LinkedList<>(); 
     private volatile boolean paused = false;
 
-    public PrimeFinderThread(int a, int b) {
+    public PrimeFinderThread(long a, long b) {
         super();
         this.a = a;
         this.b = b;
     }
 
     public void run() {
-        for (int i = a; i <= b; i++) {
+        for (long i = a; i <= b; i++) {
             synchronized (this) {
                 while (paused) {
                     try {
@@ -33,16 +33,16 @@ public class PrimeFinderThread extends Thread{
         }
     }
 
-    boolean isPrime(int n) {
+    boolean isPrime(long n) {
         if (n < 2) return false;
         if (n % 2 == 0 && n != 2) return false;
-        for (int i = 3; i * i <= n; i += 2) {
+        for (long i = 3; i * i <= n; i += 2) {
             if (n % i == 0) return false;
         }
         return true;
     }
 
-    public List<Integer> getPrimes() {
+    public List<Long> getPrimes() {
         return primes;
     }
 

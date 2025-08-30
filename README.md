@@ -1,4 +1,43 @@
-# programación concurrente, condiciones de carrera y sincronización de hilos
+# Laboratorio – Concurrencia y Sincronización en Java
+## Descripción
+
+Este laboratorio tiene como objetivo practicar los conceptos de concurrencia, sincronización y coordinación de hilos en Java mediante dos ejercicios principales:
+
+1. Primos Concurrentes:
+
+- Implementación de un programa que busca números primos dentro de un rango definido.
+- Inicialmente se ejecuta con un solo hilo, y posteriormente se modifica para usar tres hilos que dividen el trabajo en intervalos más pequeños.
+- Se observa cómo el uso de múltiples hilos permite aprovechar mejor los núcleos del procesador.
+
+2. Carrera de Galgos (Simulación Gráfica):
+
+- Simulación de una carrera de perros galgos donde cada galgo es representado por un hilo independiente.
+- Todos los hilos comparten un objeto RegistroLlegada que lleva el control de las posiciones de llegada.
+- Se identifican y corrigen problemas de condiciones de carrera y de sincronización en el registro de posiciones.
+- Se implementa la funcionalidad de pausa y continuar la carrera utilizando los mecanismos de sincronización (wait, notifyAll, join).
+
+### Tecnologías utilizadas
+
+* Lenguaje: Java 8+
+* Librerías estándar de java.util.concurrent
+* Interfaz gráfica con Swing
+
+### Ejecución
+Parte I – Primos Concurrentes
+
+- Ir a la carpeta parte1.
+- Compilar y ejecutar la clase principal del paquete edu.eci.arsw.primefinder.
+    * mvn clean compile
+    * mvn exec:java    
+
+Parte II – Carrera de Galgos
+
+- Ir a la carpeta parte2.
+- Compilar y ejecutar MainCanodromo.
+    * mvn clean compile
+    * mvn exec:java   
+
+# Solución
 ### Parte 1 
 **Punto 1**
 Inicialmente el programa ejecuta la búsqueda de primos utilizando **un solo hilo** (`PrimeFinderThread`) en el rango `0 – 200.000.000`.
@@ -24,13 +63,9 @@ Esto confirma que el programa aprovecha el paralelismo ofrecido por el procesado
 
 **Punto 3**
 Al ejecutar el programa y modificar de tal manera que despues de 5 seg se detenga para ver cuantos primos alcanzo a contar cada hilo se obtuvo lo siguiente
-
 - Con 3 hilos
-  
 ![alt text](img/image-3.png)
-
-- Con 18 hilos
-  
+- Con 18 hilos 
 ![alt text](img/image-4.png)
 
 ### Parte 2

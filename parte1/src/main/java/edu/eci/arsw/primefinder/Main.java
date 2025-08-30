@@ -11,7 +11,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         System.out.print(" Ingresa el número máximo a evaluar: ");
-        int maxNumber = sc.nextInt();
+        long maxNumber = sc.nextLong(); 
 
         System.out.print(" Ingresa la cantidad de hilos a usar: ");
         int numThreads = sc.nextInt();
@@ -20,10 +20,10 @@ public class Main {
         List<PrimeFinderThread> threads = new ArrayList<>();
 
         // Dividir el rango en partes iguales para cada hilo
-        int rangePerThread = maxNumber / numThreads;
+        long rangePerThread = maxNumber / numThreads; 
         for (int i = 0; i < numThreads; i++) {
-            int start = i * rangePerThread;
-            int end = (i == numThreads - 1) ? maxNumber : (i + 1) * rangePerThread;
+            long start = i * rangePerThread;
+            long end = (i == numThreads - 1) ? maxNumber : (i + 1) * rangePerThread;
             PrimeFinderThread pft = new PrimeFinderThread(start, end);
             threads.add(pft);
             pft.start();
